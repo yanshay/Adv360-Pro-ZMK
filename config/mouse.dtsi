@@ -1,0 +1,41 @@
+#include <dt-bindings/zmk/mouse.h>
+
+&mmv {
+  acceleration-exponent = <1>;
+  time-to-max-speed-ms = <500>;
+  delay-ms = <0>;
+};
+
+&mwh {
+  acceleration-exponent = <0>;
+  time-to-max-speed-ms = <40>;
+  delay-ms = <0>;
+};
+
+ZMK_BEHAVIOR(ms_mv_tap_clk, hold_tap,
+    tapping-term-ms = <100>;
+    /* bindings = <&kp>, <&kp>; */
+    bindings = <&mmv>, <&mkp>;
+)
+
+#define MS_CUR_STEP_HOR_NORM 2000
+#define MS_CUR_STEP_HOR_FAST 4000
+#define MS_CUR_STEP_VER_NORM 1500
+#define MS_CUR_STEP_VER_FAST 3000
+#define MS_WHL_STEP_HOR 15
+#define MS_WHL_STEP_VER 15
+
+#define MS_CUR_DWN_F &mmv MOVE_VERT(MS_CUR_STEP_HOR_FAST)
+#define MS_CUR_LFT_F &mmv MOVE_HOR(-MS_CUR_STEP_HOR_FAST)
+#define MS_CUR_RGT_F &mmv MOVE_HOR(MS_CUR_STEP_HOR_FAST)
+#define MS_CUR_UP_F &mmv MOVE_VERT(-MS_CUR_STEP_HOR_FAST)
+
+#define MS_CUR_DWN_N &mmv MOVE_VERT(MS_CUR_STEP_HOR_NORM)
+#define MS_CUR_LFT_N &ms_mv_tap_clk MOVE_HOR(-MS_CUR_STEP_HOR_NORM) MB1
+#define MS_CUR_RGT_N &ms_mv_tap_clk MOVE_HOR(MS_CUR_STEP_HOR_NORM) MB1
+#define MS_CUR_UP_N &mmv MOVE_VERT(-MS_CUR_STEP_HOR_NORM)
+
+#define MS_WHL_DWN &mwh SCROLL_VERT(-MS_WHL_STEP_VER)
+#define MS_WHL_UP  &mwh SCROLL_VERT(MS_WHL_STEP_VER)
+#define MS_WHL_LFT &mwh SCROLL_HOR(-MS_WHL_STEP_VER)
+#define MS_WHL_RGT &mwh SCROLL_HOR(MS_WHL_STEP_VER)
