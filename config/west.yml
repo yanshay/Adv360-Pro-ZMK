@@ -10,7 +10,7 @@ manifest:
     - name: urob-zmk
       remote: yanshay
       path: zmk
-      revision: adv360-led
+      revision: yanshay_production
       import: app/west.yml
   self:
     path: config
