@@ -19,6 +19,9 @@
 #define MOD 3
 #define NAV 4
 #define NUMSYM 5
+#define COMBO_SLOW 50
+#define COMBO_NORM 35
+#define COMBO_FAST 20
 
 /* Sticky layer settings ****************************************/ 
 &sl {
@@ -43,44 +46,44 @@ ZMK_BEHAVIOR(smart_num_layer, hold_tap,
 #define SMART_NUM &smart_num_layer NUMSYM 0
 
 /* Symbols Combos ****************************************/ 
-#define TWOK_COMBO(name, keypos, bind_key) \
-    ZMK_COMBO(name, &kp bind_key, keypos (keypos+1), ALL, 35)
+#define TWOK_COMBO(name, keypos, bind_key, timeout) \
+    ZMK_COMBO(name, &kp bind_key, keypos (keypos+1), ALL, timeout)
 
-#define TWOK_COMBOEX(name, keypos, bindings) \
-    ZMK_COMBO(name, bindings, keypos (keypos+1), ALL, 35)
+#define TWOK_COMBOEX(name, keypos, bindings, timeout) \
+    ZMK_COMBO(name, bindings, keypos (keypos+1), ALL, timeout)
  
-#define THREEK_COMBOEX(name, keypos, bindings) \
-    ZMK_COMBO(name, bindings, keypos (keypos+1) (keypos+2), ALL, 35)
+#define THREEK_COMBOEX(name, keypos, bindings, timeout) \
+    ZMK_COMBO(name, bindings, keypos (keypos+1) (keypos+2), ALL, timeout)
 
-#define TWOK_COMBO_SHIFTED(name, key_pos, base_key, shifted_key) \
-    TWOK_COMBOEX(name, key_pos, &name) \
+#define TWOK_COMBO_SHIFTED(name, key_pos, base_key, shifted_key, timeout) \
+    TWOK_COMBOEX(name, key_pos, &name, timeout) \
     ZMK_BEHAVIOR(name, mod_morph, \
         bindings = <&kp base_key>, <&kp shifted_key>; \
         mods = <(MOD_LSFT|MOD_RSFT)>; \
     )
 
-TWOK_COMBO_SHIFTED(ampersand_pipe, 42, AMPS, CARET)
-TWOK_COMBO_SHIFTED(hash_dollar, 17, HASH, DOLLAR)
-TWOK_COMBO_SHIFTED(equal_percent, 31, EQUAL, PERCENT)
-TWOK_COMBO_SHIFTED(under_pipe, 63, UNDER, PIPE)
-TWOK_COMBO_SHIFTED(minus_plus, 30, MINUS, PLUS)
-TWOK_COMBO_SHIFTED(quote_dblquote, 64, SQT, DQT)
-TWOK_COMBO_SHIFTED(exclamation_atsign, 16, EXCLAMATION, AT_SIGN)
-TWOK_COMBO_SHIFTED(grave_tilde, 50, GRAVE, TILDE)
-TWOK_COMBO_SHIFTED(backslash_asterisk, 51, BACKSLASH, ASTRK)
+TWOK_COMBO_SHIFTED(ampersand_pipe, 42, AMPS, CARET, COMBO_NORM)
+TWOK_COMBO_SHIFTED(hash_dollar, 17, HASH, DOLLAR, COMBO_NORM)
+TWOK_COMBO_SHIFTED(equal_percent, 31, EQUAL, PERCENT, COMBO_NORM)
+TWOK_COMBO_SHIFTED(under_pipe, 63, UNDER, PIPE, COMBO_NORM)
+TWOK_COMBO_SHIFTED(minus_plus, 30, MINUS, PLUS, COMBO_NORM)
+TWOK_COMBO_SHIFTED(quote_dblquote, 64, SQT, DQT, COMBO_NORM)
+TWOK_COMBO_SHIFTED(exclamation_atsign, 16, EXCLAMATION, AT_SIGN, COMBO_NORM)
+TWOK_COMBO_SHIFTED(grave_tilde, 50, GRAVE, TILDE, COMBO_NORM)
+TWOK_COMBO_SHIFTED(backslash_asterisk, 51, BACKSLASH, ASTRK, COMBO_NORM)
 
 /* Two colons combo **************************************** */
-TWOK_COMBOEX(combo_two_colons, 45, &macro_two_colons )
+TWOK_COMBOEX(combo_two_colons, 45, &macro_two_colons , COMBO_NORM)
 ZMK_BEHAVIOR(macro_two_colons, macro,
     bindings = <&macro_tap &kp COLON &kp COLON>;
 )
 
 /* Two key combo greater/less than with brackets **************************************** */ 
-TWOK_COMBO_SHIFTED(lt_lbkt, 23, LT, LBKT)
-TWOK_COMBO_SHIFTED(gt_rbkt, 24, GT, RBKT)
+TWOK_COMBO_SHIFTED(lt_lbkt, 23, LT, LBKT, COMBO_NORM)
+TWOK_COMBO_SHIFTED(gt_rbkt, 24, GT, RBKT, COMBO_NORM)
 
 /* Three key combo greater/less than with brackets **************************************** */ 
-THREEK_COMBOEX(combo_both_gtlt_brackets, 23, &both_gtlt_brackets)
+THREEK_COMBOEX(combo_both_gtlt_brackets, 23, &both_gtlt_brackets, COMBO_NORM)
 ZMK_BEHAVIOR(both_gtlt_brackets, mod_morph,
     bindings = <&macro_both_gtlt>, <&macro_both_brackets>;
     mods = <(MOD_LSFT|MOD_RSFT)>;
@@ -93,11 +96,11 @@ ZMK_BEHAVIOR(macro_both_brackets, macro,
 )
 
 /* Two key combo parenthesis with braces **************************************** */ 
-TWOK_COMBO_SHIFTED(left_parenthesis_brace, 43, LPAR, LBRC)
-TWOK_COMBO_SHIFTED(right_parenthesis_brace, 44, RPAR, RBRC)
+TWOK_COMBO_SHIFTED(left_parenthesis_brace, 43, LPAR, LBRC, COMBO_FAST)
+TWOK_COMBO_SHIFTED(right_parenthesis_brace, 44, RPAR, RBRC, COMBO_NORM)
 
 /* Three key parenthesis with braces **************************************** */
-THREEK_COMBOEX(combo_both_parenthesis, 43, &both_parenthesis_braces)
+THREEK_COMBOEX(combo_both_parenthesis, 43, &both_parenthesis_braces, COMBO_NORM)
 ZMK_BEHAVIOR(both_parenthesis_braces, mod_morph,
     bindings = <&macro_both_parenthesis>, <&macro_both_braces>;
     mods = <(MOD_LSFT|MOD_RSFT)>;
@@ -147,35 +150,76 @@ ZMK_BEHAVIOR(spc_tab, mod_morph,
         keep-mods = <0>;
 )
 
-ZMK_BEHAVIOR(caps_taps, tap_dance,
-    tapping-term-ms = <200>;
+// hold: right-shift | tap: sticky shift | left-shift+tap: enter | double-tap: caps_word | triple-tap: cancel
+ZMK_BEHAVIOR(sk_rshft_caps_td, tap_dance,
+    tapping-term-ms = <250>;
     bindings = <&skq RSHIFT>, <&caps_word>, <&kp K_CANCEL>;
 )
-
-ZMK_BEHAVIOR(sk_shft_caps_ent, mod_morph,
-        bindings = <&caps_taps>, <&kp ENTER>;
+ZMK_BEHAVIOR(sk_rshft_caps_ent, mod_morph,
+        bindings = <&sk_rshft_caps_td>, <&kp ENTER>;
         mods = <(MOD_LSFT)>; // On purpose only left shift to avoid critical mistakes between space and enter
         keep-mods = <0>;
 )
 
+// hold: left-shift | tap: sticky shift | right-shift+tap: esc | double-tap: caps_word | triple-tap: cancel
+ZMK_BEHAVIOR(sk_lshft_caps_td, tap_dance,
+    tapping-term-ms = <250>;
+    bindings = <&skq LSHIFT>, <&caps_word>, <&kp K_CANCEL>;
+)
+ZMK_BEHAVIOR(sk_lshft_caps_esc, mod_morph,
+        bindings = <&sk_lshft_caps_td>, <&kp ESC>;
+        mods = <(MOD_RSFT)>; // On purpose only right shift
+        keep-mods = <0>;
+)
+
+// tap: backspace | shift-tap: delete
 ZMK_BEHAVIOR(bsp_del, mod_morph,
         bindings = <&kp BSPC>, <&kp DEL>;
         mods = <(MOD_RSFT|MOD_LSFT)>;
         keep-mods = <0>;
 )
 
+// Change language using both left and right shift thumbs together
+// ZMK_COMBO(thumbs_change_lang, &kp LG(Q), 74 77, ALL, COMBO_SLOW)
+
+// tests in context of checking issues with combo not interruting tap-dance
+//
+// ZMK_BEHAVIOR(test_tap_dance, tap_dance,
+//     tapping-term-ms = <3000>;
+//     bindings = <&kp A>, <&kp B>;
+// )
+//
+// ZMK_BEHAVIOR(test_hold_tap, hold_tap,
+//     flavor = "hold-preferred";
+//     tapping-term-ms = <200>;
+//     bindings = <&kp>, <&kp>;
+// )
+// TWOK_COMBOEX(combo_test, 79, &kp C , COMBO_NORM)
+//
+// / {
+//     combos {
+//         compatible = "zmk,combos";
+//         combo_test2 {
+//             timeout-ms = <50>;
+//             key-positions = <81 82>;
+//             bindings = <&kp E>;
+//         };
+//     };
+// };
+
 ZMK_LAYER(default_layer,
 //╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮╭─────╮ ╭─────╮╭─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────┬─────────────────╮
-   &kp EQUAL         &kp N1            &kp N2            &kp N3            &kp N4            &kp N5            &mo_kp MOD LG(Q)                                                                                          &tog KP           &kp N6            &kp N7            &kp N8            &kp N9            &kp N0            &kp MINUS
+   &kp EQUAL         &kp N1            &kp N2            &kp N3            &kp N4            &kp N5            &mo_kp MOD LG(Q)                                                                                          &mo_tog MOD KP    &kp N6            &kp N7            &kp N8            &kp N9            &kp N0            &kp MINUS
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤├─────┤ ├─────┤├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
    &kp TAB           &kp Q             &kp W             &kp E             &kp R             &kp T             &none                                                                                                     &none             &kp Y             &kp U             &kp I             &kp O             &kp P             &kp BSLH
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤├─────┤ ├─────┤├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
-   &kp ESC           &kp A             &kp S             &kp D             &kp F             &kp G             &none             &mt LCTRL HOME    &kp LCMD           &none   &none  &kp RCMD          &mt RCTRL END     &none             &kp H             &kp J             &kp K             &kp L             &kp SEMI          &kp SQT
+   &kp ESC           &kp A             &kp S             &kp D             &kp F             &kp G             &kp LALT          &mt LCTRL HOME    &kp LCMD           &none   &none  &kp RCMD          &mt RCTRL END     &kp RALT          &kp H             &kp J             &kp K             &kp L             &kp SEMI          &kp SQT
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤├─────┤ ├─────┤├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
-   &kp LALT          &kp Z             &kp X             &kp C             &kp V             &kp B             xxx               xxx               SMART_NUM          &none   &none  SMART_NUM         xxx               xxx               &kp N             &kp M             &kp COMMA         &kp DOT           &kp FSLH          &mt LALT ENTER
+   &kp LSHFT         &kp Z             &kp X             &kp C             &kp V             &kp B             xxx               xxx               SMART_NUM          &none   &none  SMART_NUM         xxx               xxx               &kp N             &kp M             &kp COMMA         &kp DOT           &kp FSLH          &mt LALT ENTER
    // &kp LALT          &kp Z             &kp X             &kp C             &kp V             &kp B             xxx               xxx               &lt NUMSYM HOME    &none   &none  &lt NUMSYM PG_UP  xxx               xxx               &kp N             &kp M             &kp COMMA         &kp DOT           &kp FSLH          &mt LALT ENTER
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤├─────┤ ├─────┤├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
-   &mo FN            &kp GRAVE         &kp CAPS          &kp LEFT          &kp RIGHT                           &bsp_del          &mt LSHIFT ESC    &mo_tog NAV NAV                   &mo_tog NAV NAV   &sk_shft_caps_ent &spc_tab                            &kp DOWN          &kp UP            &kp LBKT          &kp RBKT          &mo FN
+   &mo FN            &kp GRAVE         &kp CAPS          &kp LEFT          &kp RIGHT                           &bsp_del         &sk_lshft_caps_esc &mo_tog NAV NAV                   &mo_tog NAV NAV  &sk_rshft_caps_ent &spc_tab                            &kp DOWN          &kp UP            &kp LBKT          &kp RBKT          &mo FN
+//   &mo FN            &kp GRAVE         &kp CAPS          &kp LEFT          &kp RIGHT                           &bsp_del          &mt LSHIFT ESC    &mo_tog NAV NAV                   &mo_tog NAV NAV  &sk_rshft_caps_ent &spc_tab                            &kp DOWN          &kp UP            &kp LBKT          &kp RBKT          &mo FN
 //╰─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────╯╰─────╯ ╰─────╯╰─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────╯
 )
 
@@ -213,13 +257,13 @@ ZMK_LAYER(layer_mod,
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤├─────┤ ├─────┤├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
    &none             &none             &none             &none             &none             &none             &bootloader                                                                                               &bootloader       &none             &none             &none             &none             &none             &none
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤├─────┤ ├─────┤├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
- //&none             &none             &none             &none             &none             &tog NAV     &rgb_ug RGB_MEFS_CMD 5 &bt BT_CLR        &none              &none   &none  &bt BT_CLR        &bt BT_CLR   &rgb_ug RGB_MEFS_CMD 5 &none             &none             &none             &none             &none             &none
    &none             &none             &none             &none             &none             &tog NAV          ___               &bt BT_CLR        &none              &none   &none  &bt BT_CLR        &bt BT_CLR        ___               &none             &none             &none             &none             &none             &none
+ //&none             &none             &none             &none             &none             &tog NAV     &rgb_ug RGB_MEFS_CMD 5 &bt BT_CLR        &none              &none   &none  &bt BT_CLR        &bt BT_CLR   &rgb_ug RGB_MEFS_CMD 5 &none             &none             &none             &none             &none             &none
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤├─────┤ ├─────┤├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
    &none             &none             &none             &none             &none             &none             &none             &none             &none              &none   &none  &none             &none             &none             &none             &none             &none             &none             &none             &none
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤├─────┤ ├─────┤├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
-// &none             &none             &none             &bl BL_DEC        &bl BL_INC                          &rgb_ug RGB_TOG   &bl BL_TOG        &none                             &none             &bl BL_TOG        &rgb_ug RGB_TOG                     &bl BL_DEC        &bl BL_INC        &none             &none             &none
-   &none             &none             &none             &bl BL_DEC        &bl BL_INC                          ___               &bl BL_TOG        &none                             &none             &bl BL_TOG        ___                                 &bl BL_DEC        &bl BL_INC        &none             &none             &none
+   &reset            &none             &none             &bl BL_DEC        &bl BL_INC                          ___               &bl BL_TOG        &none                             &none             &bl BL_TOG        ___                                 &bl BL_DEC        &bl BL_INC        &none             &none             &reset
+// &none             &none             &none             &bl BL_DEC        &bl BL_INC                          &rgb_ug RGB_TOG   &bl BL_TOG        &none                             &none             &bl BL_TOG        &rgb_ug RGB_TOG                     &bl BL_DEC        &bl BL_INC        &none             &none             &none 
 //╰─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────╯╰─────╯ ╰─────╯╰─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────╯
 )
 
