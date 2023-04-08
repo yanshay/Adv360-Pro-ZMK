@@ -29,8 +29,8 @@ ZMK_BEHAVIOR(hml, hold_tap,  // left-hand HRMs
 )
 
 ZMK_BEHAVIOR(hmr, hold_tap,  // right-hand HRMs
-    flavor = "balanced";
-    tapping-term-ms = <280>;
+    flavor = "tap-unless-interrupted";
+    tapping-term-ms = <750>;
     quick-tap-ms = <QUICK_TAP_MS>;
     global-quick-tap-ms = <150>;        // requires PR #1387
     bindings = <&kp>, <&kp>;
@@ -291,13 +291,11 @@ ZMK_LAYER(default_layer,
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤├─────┤ ├─────┤├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
    &kp TAB           &kp Q             &kp W             &kp E             &hml_ml NUMSYM R  &kp T             &none                                                                                                     &none             &kp Y             &kp U             &kp I             &kp O             &kp P             &kp BSLH
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤├─────┤ ├─────┤├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
-   &kp ESC           &kp A             &kp S             &hml LSHFT D      &kp F             &hml_ml NAV G     &kp LALT          &mt LCTRL HOME    &kp LCMD           &none   &none  &kp RCMD          &mt RCTRL END     &kp RALT          &hmr_ml NAV H     &kp J             &hmr RSHFT K      &kp L             &kp SEMI          &kp SQT
+   &kp ESC           &kp A             &kp S             &hml LSHFT D      &kp F             &hml_ml NUMSYM G  &kp LALT          &mt LCTRL HOME    &kp LCMD           &none   &none  &kp RCMD          &mt RCTRL END     &kp RALT          &kp H             &kp J             &hmr RSHFT K      &kp L             &kp SEMI          &kp SQT
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤├─────┤ ├─────┤├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
-   &kp LSHFT         &kp Z             &kp X             &kp C             &hml_ml NUMSYM V  &kp B             xxx               xxx               SMART_NUM          &none   &none  SMART_NUM         xxx               xxx               &kp N             &kp M             &kp COMMA         &kp DOT           &kp FSLH          &mt LALT ENTER
-   // &kp LALT          &kp Z             &kp X             &kp C             &kp V             &kp B             xxx               xxx               &lt NUMSYM HOME    &none   &none  &lt NUMSYM PG_UP  xxx               xxx               &kp N             &kp M             &kp COMMA         &kp DOT           &kp FSLH          &mt LALT ENTER
+   &kp LSHFT         &kp Z             &kp X             &kp C             &hml_ml NAV V     &kp B             xxx               xxx               SMART_NUM          &none   &none  SMART_NUM         xxx               xxx               &kp N             &hmr_ml NAV M     &kp COMMA         &kp DOT           &kp FSLH          &mt LALT ENTER
 //├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤├─────┤ ├─────┤├─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┼─────────────────┤
    &mo FN            &kp GRAVE         &kp CAPS          &kp LEFT          &kp RIGHT                           &bsp_del         &sk_lshft_caps_esc &mo_tog NAV NAV                   &mo_tog NAV NAV  &sk_rshft_caps_ent &spc_tab                            &kp DOWN          &kp UP            &kp LBKT          &kp RBKT          &mo FN
-//   &mo FN            &kp GRAVE         &kp CAPS          &kp LEFT          &kp RIGHT                           &bsp_del          &mt LSHIFT ESC    &mo_tog NAV NAV                   &mo_tog NAV NAV  &sk_rshft_caps_ent &spc_tab                            &kp DOWN          &kp UP            &kp LBKT          &kp RBKT          &mo FN
 //╰─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────╯╰─────╯ ╰─────╯╰─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────┴─────────────────╯
 )
 
