@@ -93,10 +93,8 @@
 #define RU4 83
 
 //???
-#define LH0 70  // left thumb keys
-#define LH1 69
-#define LH2 74
+#define LH0 73  // left thumb keys
+#define LH1 74
 
-#define RH0 72  // right thumb keys
-#define RH1 73
-#define RH2 75
+#define RH0 78  // right thumb keys
+#define RH1 77
