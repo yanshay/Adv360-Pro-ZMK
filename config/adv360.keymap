@@ -257,6 +257,9 @@ ZMK_BEHAVIOR(bsp_del, mod_morph,
         keep-mods = <0>;
 )
 
+// shift-enter - for some reasone requires pressing first enter than the home row shift
+ZMK_COMBO(shift_enter, &kp LS(ENTER), 74 77 44, ALL, 10000)
+ 
 // Change language using both left and right shift thumbs together
 // ZMK_COMBO(thumbs_change_lang, &kp LG(Q), 74 77, ALL, COMBO_SLOW)
 
