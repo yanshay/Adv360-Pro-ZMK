@@ -190,6 +190,18 @@ ZMK_BEHAVIOR(macro_both_braces, macro,
     bindings = <&macro_tap &kp LBRC &kp RBRC>;
 )
  
+/* Three key '--' **************************************** */
+THREEK_COMBOEX(combo_double_minus, 30, &double_minus_double_plus, COMBO_NORM)
+ZMK_BEHAVIOR(double_minus_double_plus, mod_morph,
+    bindings = <&macro_double_minus>, <&macro_double_plus>;
+    mods = <(MOD_LSFT|MOD_RSFT)>;
+)
+ZMK_BEHAVIOR(macro_double_minus, macro,
+    bindings = <&macro_tap &kp KP_MINUS &kp KP_MINUS>;
+)
+ZMK_BEHAVIOR(macro_double_plus, macro,
+    bindings = <&macro_tap &kp EQUAL &kp EQUAL>;
+)
 // ZMK_BEHAVIOR(unshifted_tab, macro,
 //     bindings = <&macro_release &kp LSHIFT>, <&macro_tap &kp TAB>, <&macro_press &kp LSHIFT>;
 // )
