@@ -167,7 +167,7 @@ ZMK_BEHAVIOR(both_gtlt_brackets, mod_morph,
     mods = <(MOD_LSFT|MOD_RSFT)>;
 )
 ZMK_BEHAVIOR(macro_both_gtlt, macro,
-    bindings = <&macro_tap &kp LBKT &kp RBKT>;
+    bindings = <&macro_tap &kp LT &kp GT>;
 )
 ZMK_BEHAVIOR(macro_both_brackets, macro,
     bindings = <&macro_tap &kp LBKT &kp RBKT>;
